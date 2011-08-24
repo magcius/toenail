@@ -42,8 +42,9 @@ def _install_excrement():
 
 _install_excrement()
 
-a = 1
-print ++a
+if __name__ == "__main__":
+    a = 1
+    print ++a
 
-a = 5
-print --a
+    a = 5
+    print --a
