@@ -20,7 +20,7 @@ class ClassMethod(object):
     def __get__(this, obj, _):
         gs = {"this": obj};
         gs.update(this.f.func_globals);
-        return types.FunctionType(this.f.func_code, gs, 
+        return types.FunctionType(this.f.func_code, gs,
                    this.f.__name__, this.f.func_defaults);
 
 class ConstructorMeta(type):
@@ -75,7 +75,7 @@ def toString(O):
     """
     return str(O);
 
-def java_patch():
+def javaPatch():
     """
     Stave it off, one two three...
     """
@@ -135,11 +135,11 @@ def java_patch():
             def __neg__(self):
                 return _negative(int(self))-1;
 
-        def decrement_unary(v):
+        def decrementUnary(v):
             return DecrementUnary(_negative(v));
 
         typeobj.contents.tp_as_number.contents.positive = unary(IncrementUnary);
-        typeobj.contents.tp_as_number.contents.negative = unary(decrement_unary);
+        typeobj.contents.tp_as_number.contents.negative = unary(decrementUnary);
 
     for pytype in (int, long):
         _install(pytype)
@@ -156,14 +156,14 @@ def java_patch():
     Package("java.util");
     java.util.List = list;
 
-    class object_constructor(object):
+    class ObjectConstructor(object):
         __metaclass__ = ConstructorMeta;
 
-    object_constructor.__name__ = "object";
+    ObjectConstructor.__name__ = "object";
 
-    __builtin__.object = object_constructor;
+    __builtin__.object = ObjectConstructor;
 
-java_patch();
+javaPatch();
 
 if __name__ == "__main__":
     class ObjectTest(object):
